@@ -3,10 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <title>Hello, world!</title>
+  <style>
+    #container {
+      display: flex;
+      gap: 50px;
+      justify-content: center;
+    }
+
+    h1 {
+      font-size: 40px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    body {
+      background-color: blanchedalmond;
+    }
+
+    button {
+      width: 200px;
+      height: 100px;
+      font-size: 20px;
+      background-color: rgb(253, 184, 128);
+      border: 2px black solid;
+      border-radius: 10px;
+    }
+
+    #mainCont {
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+      display: flex;
+      flex-direction: column; 
+      gap: 20px;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Hello, world!</h1>
+  <h1>Play rock-paper-scissors with the computer!!!</h1>
+  <div id="mainCont">
+    <div id="container"></div>
+  </div>
 
   <script>
 
@@ -25,8 +63,20 @@
         return compChoice;
     }
 
-    function playRound (playerSelection, computerSelection) {
-      playerSelection=playerSelection.toLowerCase();
+    const mainCont = document.querySelector('#mainCont');
+    const divRes = document.createElement('div');
+    divRes.classList.add('divRes');
+    const divWinner = document.createElement('div');
+    divWinner.classList.add('divWinner');
+
+
+    let compScore = 0;
+    let userScore = 0;
+
+    function playRound (playerSelection) {
+      let computerSelection = getComputerChoice();
+
+      playerSelection = playerSelection.toLowerCase();
       computerSelection=computerSelection.toLowerCase();
 
       let result;
@@ -35,20 +85,76 @@
       computerSelection==="paper" && playerSelection==="rock" ||
       computerSelection==="scissors" && playerSelection==="paper") {
         result = "Computer won!";
+        compScore++;
       }
       else if (computerSelection===playerSelection){
         result="That's a tie";
       }
       else {
         result= "You won!";
+        userScore++;
       }
 
-      alert(result);
+      divRes.textContent = result;
+
+      if (compScore===5){
+        divWinner.textContent = 'Computer won in 5 games';
+      } else  if (userScore === 5) {
+        divWinner.textContent = 'You won in 5 games';
+      }
+
+      if (compScore===5 || userScore ===5){
+        compScore = userScore = 0;
+      }
       return result;
     }
 
+    const container = document.querySelector('#container');
+    const btnRock = document.createElement('button');
+    btnRock.classList.add('btnRock');
+    btnRock.textContent='Rock';
 
-    function game () {
+    const btnPaper = document.createElement('button');
+    btnPaper.classList.add('btnPaper');
+    btnPaper.textContent='Paper';
+
+    const btnSciss = document.createElement('button');
+    btnSciss.classList.add('btnSciss');
+    btnSciss.textContent = 'Scissors';
+
+    container.appendChild(btnRock);
+    container.appendChild(btnPaper);
+    container.appendChild(btnSciss);
+    mainCont.appendChild(divRes);
+    mainCont.appendChild(divWinner);
+
+    btnRock.addEventListener ('click', () => {
+      playRound('rock');
+    });
+
+    btnPaper.addEventListener ('click', () => {
+      playRound('paper');
+    });
+
+    btnSciss.addEventListener ('click', () => {
+      playRound('scissors');
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*function game () {
 
       let compScore = 0,
         playerScore = 0;
@@ -56,6 +162,7 @@
       for (let i=0; i<5;i++){
 
         let playerCh = prompt("What do you choose? ");
+        
         let compCh = getComputerChoice();
 
         let result = playRound(playerCh, compCh);
@@ -63,16 +170,14 @@
         if (result=="Computer won!") { compScore++; }
         else if (result=="You won!") { playerScore++; }
         else if (result == "That's a tie") {compScore++; playerScore++;}
-
         }
 
         if (compScore>playerScore) {alert(`Computer won in total 5 games\nScore:\tYou: ${playerScore} \t Comp: ${compScore}`);}
         else if (compScore<playerScore) {alert(`You won in total 5 games\nScore:\tYou: ${playerScore} \t Comp: ${compScore}`);}
         else if (compScore===playerScore) {alert(`That's a tie in total\nScore:\tYou: ${playerScore} \t Comp: ${compScore}`);}
-
     }
 
-    console.log(game());
+    console.log(game());*/
 
   </script>
 </body>
